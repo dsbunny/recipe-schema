@@ -1,10 +1,10 @@
 import * as z from "zod/v4";
 export declare namespace RecipeSchema {
-    const HashValue: z.ZodObject<{
+    const HashValueSchema: z.ZodObject<{
         method: z.ZodLiteral<"SHA256">;
         hex: z.ZodString;
     }, z.core.$strip>;
-    const HTMLImageElement: z.ZodObject<{
+    const HTMLImageElementSchema: z.ZodObject<{
         "@type": z.ZodLiteral<"HTMLImageElement">;
         asset_id: z.ZodUUID;
         href: z.ZodURL;
@@ -19,8 +19,8 @@ export declare namespace RecipeSchema {
         duration: z.ZodNumber;
         params: z.ZodOptional<z.ZodRecord<z.ZodString, z.ZodAny>>;
     }, z.core.$strip>;
-    type HTMLImageElement = z.infer<typeof HTMLImageElement>;
-    const HTMLVideoElement: z.ZodObject<{
+    type HTMLImageElement = z.infer<typeof HTMLImageElementSchema>;
+    const HTMLVideoElementSchema: z.ZodObject<{
         "@type": z.ZodLiteral<"HTMLVideoElement">;
         asset_id: z.ZodUUID;
         href: z.ZodURL;
@@ -35,8 +35,8 @@ export declare namespace RecipeSchema {
         duration: z.ZodNumber;
         params: z.ZodOptional<z.ZodRecord<z.ZodString, z.ZodAny>>;
     }, z.core.$strip>;
-    type HTMLVideoElement = z.infer<typeof HTMLVideoElement>;
-    const HTMLScriptElement: z.ZodObject<{
+    type HTMLVideoElement = z.infer<typeof HTMLVideoElementSchema>;
+    const HTMLScriptElementSchema: z.ZodObject<{
         "@type": z.ZodLiteral<"HTMLScriptElement">;
         asset_id: z.ZodUUID;
         href: z.ZodURL;
@@ -49,8 +49,8 @@ export declare namespace RecipeSchema {
         md5: z.ZodString;
         integrity: z.ZodString;
     }, z.core.$strip>;
-    type HTMLScriptElement = z.infer<typeof HTMLScriptElement>;
-    const CustomElement: z.ZodObject<{
+    type HTMLScriptElement = z.infer<typeof HTMLScriptElementSchema>;
+    const CustomElementSchema: z.ZodObject<{
         "@type": z.ZodLiteral<"CustomElement">;
         asset_id: z.ZodUUID;
         href: z.ZodURL;
@@ -104,8 +104,8 @@ export declare namespace RecipeSchema {
             integrity: z.ZodString;
         }, z.core.$strip>]>>>;
     }, z.core.$strip>;
-    type CustomElement = z.infer<typeof CustomElement>;
-    const RecurrenceRule: z.ZodObject<{
+    type CustomElement = z.infer<typeof CustomElementSchema>;
+    const RecurrenceRuleSchema: z.ZodObject<{
         "@type": z.ZodLiteral<"RecurrenceRule">;
         frequency: z.ZodEnum<{
             secondly: "secondly";
@@ -150,13 +150,13 @@ export declare namespace RecipeSchema {
         times: z.ZodOptional<z.ZodNumber>;
         until: z.ZodOptional<z.ZodISODateTime>;
     }, z.core.$strip>;
-    type RecurrenceRule = z.infer<typeof RecurrenceRule>;
-    const MatchPattern: z.ZodObject<{
+    type RecurrenceRule = z.infer<typeof RecurrenceRuleSchema>;
+    const MatchPatternSchema: z.ZodObject<{
         "@type": z.ZodLiteral<"MatchPattern">;
         code: z.ZodString;
     }, z.core.$strip>;
-    type MatchPattern = z.infer<typeof MatchPattern>;
-    const DOMEvent: z.ZodObject<{
+    type MatchPattern = z.infer<typeof MatchPatternSchema>;
+    const DOMEventSchema: z.ZodObject<{
         "@type": z.ZodLiteral<"DOMEvent">;
         type: z.ZodString;
         match: z.ZodObject<{
@@ -164,8 +164,8 @@ export declare namespace RecipeSchema {
             code: z.ZodString;
         }, z.core.$strip>;
     }, z.core.$strip>;
-    type DOMEvent = z.infer<typeof DOMEvent>;
-    const PlaylistEntry: z.ZodUnion<readonly [z.ZodObject<{
+    type DOMEvent = z.infer<typeof DOMEventSchema>;
+    const PlaylistEntrySchema: z.ZodUnion<readonly [z.ZodObject<{
         "@type": z.ZodLiteral<"HTMLImageElement">;
         asset_id: z.ZodUUID;
         href: z.ZodURL;
@@ -247,8 +247,8 @@ export declare namespace RecipeSchema {
             integrity: z.ZodString;
         }, z.core.$strip>]>>>;
     }, z.core.$strip>]>;
-    type PlaylistEntry = z.infer<typeof PlaylistEntry>;
-    const Playlist: z.ZodObject<{
+    type PlaylistEntry = z.infer<typeof PlaylistEntrySchema>;
+    const PlaylistSchema: z.ZodObject<{
         "@type": z.ZodLiteral<"Playlist">;
         entries: z.ZodArray<z.ZodUnion<readonly [z.ZodObject<{
             "@type": z.ZodLiteral<"HTMLImageElement">;
@@ -333,8 +333,8 @@ export declare namespace RecipeSchema {
             }, z.core.$strip>]>>>;
         }, z.core.$strip>]>>;
     }, z.core.$strip>;
-    type Playlist = z.infer<typeof Playlist>;
-    const Event: z.ZodObject<{
+    type Playlist = z.infer<typeof PlaylistSchema>;
+    const EventSchema: z.ZodObject<{
         "@type": z.ZodLiteral<"Event">;
         id: z.ZodUUID;
         name: z.ZodString;
@@ -498,8 +498,8 @@ export declare namespace RecipeSchema {
             }, z.core.$strip>;
         }, z.core.$strip>>;
     }, z.core.$strip>;
-    type Event = z.infer<typeof Event>;
-    const Transition: z.ZodObject<{
+    type Event = z.infer<typeof EventSchema>;
+    const TransitionSchema: z.ZodObject<{
         "@type": z.ZodLiteral<"Transition">;
         asset_id: z.ZodUUID;
         href: z.ZodURL;
@@ -553,18 +553,18 @@ export declare namespace RecipeSchema {
             integrity: z.ZodString;
         }, z.core.$strip>]>>>;
     }, z.core.$strip>;
-    type Transition = z.infer<typeof Transition>;
-    const SignalingServer: z.ZodObject<{
+    type Transition = z.infer<typeof TransitionSchema>;
+    const SignalingServerSchema: z.ZodObject<{
         url: z.ZodURL;
     }, z.core.$strip>;
-    type SignalingServer = z.infer<typeof SignalingServer>;
-    const IceServer: z.ZodObject<{
+    type SignalingServer = z.infer<typeof SignalingServerSchema>;
+    const IceServerSchema: z.ZodObject<{
         urls: z.ZodUnion<readonly [z.ZodString, z.ZodArray<z.ZodString>]>;
         username: z.ZodOptional<z.ZodString>;
         credential: z.ZodOptional<z.ZodString>;
     }, z.core.$strip>;
-    type IceServer = z.infer<typeof IceServer>;
-    const Cluster: z.ZodObject<{
+    type IceServer = z.infer<typeof IceServerSchema>;
+    const ClusterSchema: z.ZodObject<{
         label: z.ZodString;
         id: z.ZodUUID;
         peers: z.ZodArray<z.ZodUUID>;
@@ -578,8 +578,8 @@ export declare namespace RecipeSchema {
         }, z.core.$strip>>;
         enableLoopback: z.ZodOptional<z.ZodBoolean>;
     }, z.core.$strip>;
-    type Cluster = z.infer<typeof Cluster>;
-    const Recipe: z.ZodObject<{
+    type Cluster = z.infer<typeof ClusterSchema>;
+    const RecipeSchema: z.ZodObject<{
         id: z.ZodUUID;
         publish_id: z.ZodUUID;
         publisher_identity: z.ZodString;
@@ -904,8 +904,8 @@ export declare namespace RecipeSchema {
         }, z.core.$strip>>;
         create_timestamp: z.ZodISODateTime;
     }, z.core.$strip>;
-    type Recipe = z.infer<typeof Recipe>;
-    const RecipeLink: z.ZodObject<{
+    type Recipe = z.infer<typeof RecipeSchema>;
+    const RecipeLinkSchema: z.ZodObject<{
         "@type": z.ZodLiteral<"RecipeLink">;
         recipe_id: z.ZodUUID;
         ref_id: z.ZodOptional<z.ZodString>;
@@ -919,5 +919,5 @@ export declare namespace RecipeSchema {
         md5: z.ZodString;
         integrity: z.ZodString;
     }, z.core.$strip>;
-    type RecipeLink = z.infer<typeof RecipeLink>;
+    type RecipeLink = z.infer<typeof RecipeLinkSchema>;
 }

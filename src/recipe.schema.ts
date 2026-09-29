@@ -1,11 +1,11 @@
 // vim: tabstop=8 softtabstop=0 noexpandtab shiftwidth=8 nosmarttab
 
 import * as z from "zod/v4";
-import { BaseParams } from './base-params.js';
+import { BaseParamsSchema } from './base-params.js';
 
 export namespace RecipeSchema {
 
-	export const HashValue = z.object({
+	export const HashValueSchema = z.object({
 		method: z.literal("SHA256")
 			.describe("Hash method"),
 		hex: z.string()
@@ -14,7 +14,7 @@ export namespace RecipeSchema {
 		.describe("SHA-256 hash value");
 
 	// Define types for HTML elements
-	export const HTMLImageElement = z.object({
+	export const HTMLImageElementSchema = z.object({
 		"@type": z.literal("HTMLImageElement")
 			.describe("Type of the HTML element"),
 		asset_id: z.uuid()
@@ -25,20 +25,20 @@ export namespace RecipeSchema {
 			.describe("Optional expiration date of the image"),
 		size: z.number().min(20).max(5368709120)  // 5GB
 			.describe("Size of the image in bytes"),
-		hash: HashValue,
+		hash: HashValueSchema,
 		md5: z.string().length(24)  // Base64 encoded 16 bytes.
 			.describe("MD5 hash value"),
 		integrity: z.string()
 			.describe("Subresource Integrity (SRI) value"),
 		duration: z.number().min(1).max(86400)
 			.describe("Duration of the image in seconds"),
-		params: BaseParams.optional()
+		params: BaseParamsSchema.optional()
 			.describe("Optional parameters of the image element"),
 	})
 		.describe("HTML image element");
-	export type HTMLImageElement = z.infer<typeof HTMLImageElement>;
+	export type HTMLImageElement = z.infer<typeof HTMLImageElementSchema>;
 
-	export const HTMLVideoElement = z.object({
+	export const HTMLVideoElementSchema = z.object({
 		"@type": z.literal("HTMLVideoElement")
 			.describe("Type of the HTML element"),
 		asset_id: z.uuid()
@@ -49,20 +49,20 @@ export namespace RecipeSchema {
 			.describe("Optional expiration date of the video"),
 		size: z.number().min(20).max(5497558138880) // 5TB
 			.describe("Size of the video in bytes"),
-		hash: HashValue,
+		hash: HashValueSchema,
 		md5: z.string().length(24)  // Base64 encoded 16 bytes.
 			.describe("MD5 hash value"),
 		integrity: z.string()
 			.describe("Subresource Integrity (SRI) value"),
 		duration: z.number().min(1).max(86400)
 			.describe("Duration of the video in seconds"),
-		params: BaseParams.optional()
+		params: BaseParamsSchema.optional()
 			.describe("Optional parameters of the video element"),
 	})
 		.describe("HTML video element");
-	export type HTMLVideoElement = z.infer<typeof HTMLVideoElement>;
+	export type HTMLVideoElement = z.infer<typeof HTMLVideoElementSchema>;
 
-	export const HTMLScriptElement = z.object({
+	export const HTMLScriptElementSchema = z.object({
 		"@type": z.literal("HTMLScriptElement")
 			.describe("Type of the HTML element"),
 		asset_id: z.uuid()
@@ -73,16 +73,16 @@ export namespace RecipeSchema {
 			.describe("Optional expiration date of the script"),
 		size: z.number().min(20).max(1073741824) // 1GB
 			.describe("Size of the script in bytes"),
-		hash: HashValue,
+		hash: HashValueSchema,
 		md5: z.string().length(24)  // Base64 encoded 16 bytes.
 			.describe("MD5 hash value"),
 		integrity: z.string()
 			.describe("Subresource Integrity (SRI) value"),
 	})
 		.describe("HTML script element");
-	export type HTMLScriptElement = z.infer<typeof HTMLScriptElement>;
+	export type HTMLScriptElement = z.infer<typeof HTMLScriptElementSchema>;
 
-	export const CustomElement = z.object({
+	export const CustomElementSchema = z.object({
 		"@type": z.literal("CustomElement")
 			.describe("Type of the custom element"),
 		asset_id: z.uuid()
@@ -93,27 +93,27 @@ export namespace RecipeSchema {
 			.describe("Optional expiration date of the custom element"),
 		size: z.number().min(20).max(1073741824) // 1GB
 			.describe("Size of the custom element in bytes"),
-		hash: HashValue,
+		hash: HashValueSchema,
 		md5: z.string().length(24)  // Base64 encoded 16 bytes.
 			.describe("MD5 hash value"),
 		integrity: z.string()
 			.describe("Subresource Integrity (SRI) value"),
 		duration: z.number().min(1).max(86400)
 			.describe("Duration of the custom element in seconds"),
-		params: BaseParams.optional()
+		params: BaseParamsSchema.optional()
 			.describe("Optional parameters of the custom element"),
 		sources: z.array(z.union([
-			HTMLImageElement.omit({ duration: true }),
-			HTMLVideoElement.omit({ duration: true }),
-			HTMLScriptElement,
+			HTMLImageElementSchema.omit({ duration: true }),
+			HTMLVideoElementSchema.omit({ duration: true }),
+			HTMLScriptElementSchema,
 		])).optional()
 			.describe("Array of sources, which can be HTMLImageElement, HTMLVideoElement, or HTMLScriptElement"),
 	})
 		.describe("Custom element");
-	export type CustomElement = z.infer<typeof CustomElement>;
+	export type CustomElement = z.infer<typeof CustomElementSchema>;
 
 	// Define types for other components
-	export const RecurrenceRule = z.object({
+	export const RecurrenceRuleSchema = z.object({
 		"@type": z.literal("RecurrenceRule")
 			.describe("Type of the recurrence rule"),
 		frequency: z.enum([
@@ -159,41 +159,41 @@ export namespace RecipeSchema {
 			.describe("ISO datetime until the recurrence rule repeats"),
 	})
 		.describe("Recurrence rule");
-	export type RecurrenceRule = z.infer<typeof RecurrenceRule>;
+	export type RecurrenceRule = z.infer<typeof RecurrenceRuleSchema>;
 
-	export const MatchPattern = z.object({
+	export const MatchPatternSchema = z.object({
 		"@type": z.literal("MatchPattern")
 			.describe("Type of the match pattern"),
 		code: z.string()
 			.describe("Code of the match pattern"),
 	})
 		.describe("Match pattern");
-	export type MatchPattern = z.infer<typeof MatchPattern>;
+	export type MatchPattern = z.infer<typeof MatchPatternSchema>;
 
-	export const DOMEvent = z.object({
+	export const DOMEventSchema = z.object({
 		"@type": z.literal("DOMEvent")
 			.describe("Type of the DOM event"),
 		type: z.string()
 			.describe("Type of the DOM event"),
-		match: MatchPattern,
+		match: MatchPatternSchema,
 	})
 		.describe("DOM event");
-	export type DOMEvent = z.infer<typeof DOMEvent>;
+	export type DOMEvent = z.infer<typeof DOMEventSchema>;
 
-	export const PlaylistEntry = z.union([HTMLImageElement, HTMLVideoElement, CustomElement])
+	export const PlaylistEntrySchema = z.union([HTMLImageElementSchema, HTMLVideoElementSchema, CustomElementSchema])
 		.describe("Playlist entry, which can be HTMLImageElement, HTMLVideoElement, or CustomElement");
-	export type PlaylistEntry = z.infer<typeof PlaylistEntry>;
+	export type PlaylistEntry = z.infer<typeof PlaylistEntrySchema>;
 
-	export const Playlist = z.object({
+	export const PlaylistSchema = z.object({
 		"@type": z.literal("Playlist")
 			.describe("Type of the playlist"),
-		entries: z.array(PlaylistEntry)
+		entries: z.array(PlaylistEntrySchema)
 			.describe("Array of entries"),
 	})
 		.describe("Playlist");
-	export type Playlist = z.infer<typeof Playlist>;
+	export type Playlist = z.infer<typeof PlaylistSchema>;
 
-	export const Event = z.object({
+	export const EventSchema = z.object({
 		"@type": z.literal("Event")
 			.describe("Type of the event"),
 		id: z.uuid()
@@ -210,20 +210,20 @@ export namespace RecipeSchema {
 			.describe("Time zone of the event"),
 		duration: z.string()
 			.describe("Duration of the event"),
-		playlist: Playlist,
-		recurrenceRules: z.array(RecurrenceRule).optional()
+		playlist: PlaylistSchema,
+		recurrenceRules: z.array(RecurrenceRuleSchema).optional()
 			.describe("Array of recurrence rules"),
-		onceOn: DOMEvent.optional()
+		onceOn: DOMEventSchema.optional()
 			.describe("Once on DOM event"),
-		enableOn: DOMEvent.optional()
+		enableOn: DOMEventSchema.optional()
 			.describe("Enable on DOM event"),
-		disableOn: DOMEvent.optional()
+		disableOn: DOMEventSchema.optional()
 			.describe("Disable on DOM event"),
 	})
 		.describe("Event");
-	export type Event = z.infer<typeof Event>;
+	export type Event = z.infer<typeof EventSchema>;
 
-	export const Transition = z.object({
+	export const TransitionSchema = z.object({
 		"@type": z.literal("Transition")
 			.describe("Type of the transition"),
 		asset_id: z.uuid()
@@ -234,34 +234,34 @@ export namespace RecipeSchema {
 			.describe("Optional expiration date of the transition"),
 		size: z.number().min(20).max(1073741824) // 1GB
 			.describe("Size of the transition in bytes"),
-		hash: HashValue,
+		hash: HashValueSchema,
 		md5: z.string().length(24)  // Base64 encoded 16 bytes.
 			.describe("MD5 hash value"),
 		integrity: z.string()
 			.describe("Subresource Integrity (SRI) value"),
 		duration: z.number().min(1).max(86400)
 			.describe("Duration of the transition in seconds"),
-		params: BaseParams.optional()
+		params: BaseParamsSchema.optional()
 			.describe("Optional parameters of the transition"),
 		sources: z.array(z.union([
-			HTMLImageElement.omit({ duration: true }),
-			HTMLVideoElement.omit({ duration: true }),
-			HTMLScriptElement,
+			HTMLImageElementSchema.omit({ duration: true }),
+			HTMLVideoElementSchema.omit({ duration: true }),
+			HTMLScriptElementSchema,
 		])).optional()
 			.describe("Array of sources, which can be HTMLImageElement, HTMLVideoElement, or HTMLScriptElement"),
 	})
 		.describe("Transition");
-	export type Transition = z.infer<typeof Transition>;
+	export type Transition = z.infer<typeof TransitionSchema>;
 
-	export const SignalingServer = z.object({
+	export const SignalingServerSchema = z.object({
 		url: z.url().min(20).max(2048)
 			.describe("URL of the signaling server"),
 	})
 		.describe("Signaling server");
-	export type SignalingServer = z.infer<typeof SignalingServer>;
+	export type SignalingServer = z.infer<typeof SignalingServerSchema>;
 
 	// aka RTCIceServer in the DOM.
-	export const IceServer = z.object({
+	export const IceServerSchema = z.object({
 		urls: z.union([z.string(), z.array(z.string())])
 			.describe("URLs of the ICE server"),
 		username: z.string().optional()
@@ -270,27 +270,27 @@ export namespace RecipeSchema {
 			.describe("Credential of the ICE server"),
 	})
 		.describe("ICE server");
-	export type IceServer = z.infer<typeof IceServer>;
+	export type IceServer = z.infer<typeof IceServerSchema>;
 
-	export const Cluster = z.object({
+	export const ClusterSchema = z.object({
 		label: z.string()
 			.describe("Label of the cluster"),
 		id: z.uuid()
 			.describe("ID of the cluster"),
 		peers: z.array(z.uuid())
 			.describe("Array of peer IDs"),
-		iceServers: z.array(IceServer)
+		iceServers: z.array(IceServerSchema)
 			.describe("Array of ICE servers"),
-		signalingServers: z.array(SignalingServer)
+		signalingServers: z.array(SignalingServerSchema)
 			.describe("Array of signaling servers"),
 		enableLoopback: z.boolean().optional()
 			.describe("Enable loopback"),
 	})
 		.describe("Cluster");
-	export type Cluster = z.infer<typeof Cluster>;
+	export type Cluster = z.infer<typeof ClusterSchema>;
 
 	// Compose the final type
-	export const Recipe = z.object({
+	export const RecipeSchema = z.object({
 		id: z.uuid()
 			.describe("Recipe identifier"),
 		publish_id: z.uuid()
@@ -301,24 +301,24 @@ export namespace RecipeSchema {
 			.describe("Canvas identifier"),
 		viewport_id: z.string()
 			.describe("Viewport identifier"),
-		transition: Transition,
-		schedule: z.array(Event)
+		transition: TransitionSchema,
+		schedule: z.array(EventSchema)
 			.describe("Array of events"),
-		$defs: z.record(z.string(), Playlist).optional()
+		$defs: z.record(z.string(), PlaylistSchema).optional()
 			.describe("Definitions of playlists"),
-		cluster: Cluster.optional()
+		cluster: ClusterSchema.optional()
 			.describe("Cluster configuration"),
 		create_timestamp: z.iso.datetime()  // ISO 8601
 			.describe('The timestamp of when the recipe was created'),
 	})
 		.describe("Recipe");
-	export type Recipe = z.infer<typeof Recipe>;
+	export type Recipe = z.infer<typeof RecipeSchema>;
 
 	// Link to a recipe
-	export const RecipeLink = z.object({
+	export const RecipeLinkSchema = z.object({
 		"@type": z.literal("RecipeLink")
 			.describe("Type of the recipe link"),
-		recipe_id: Recipe.shape.id,
+		recipe_id: RecipeSchema.shape.id,
 		ref_id: z.string().max(64).optional()
 			.describe("Optional reference identifier"),
 		href: z.url().min(20).max(2048)
@@ -327,12 +327,12 @@ export namespace RecipeSchema {
 			.describe("Optional expiration date of the recipe"),
 		size: z.number().min(20).max(1073741824) // 1GB
 			.describe("Size of the recipe in bytes"),
-		hash: HashValue,
+		hash: HashValueSchema,
 		md5: z.string().length(24)  // Base64 encoded 16 bytes.
 			.describe("MD5 hash value"),
 		integrity: z.string()
 			.describe("Subresource Integrity (SRI) value"),
 	})
 		.describe("Recipe link");
-	export type RecipeLink = z.infer<typeof RecipeLink>;
+	export type RecipeLink = z.infer<typeof RecipeLinkSchema>;
 }
