@@ -1,4 +1,7 @@
 # Changelog
+## v3.0.2
+- Add name fields for assets to aid inspection of published recipes and schedules.
+
 ## v2.0.1
 - Split schema definitions to separate Schema suffix to resolve vsCode and tooling confusion.
 

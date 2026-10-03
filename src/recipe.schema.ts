@@ -19,6 +19,8 @@ export namespace RecipeSchema {
 			.describe("Type of the HTML element"),
 		asset_id: z.uuid()
 			.describe("DAM asset ID of the image"),
+		name: z.string().min(1).max(100)
+			.describe('The name of the image'),
 		href: z.url().min(20).max(2048)
 			.describe("URL of the image"),
 		expires: z.iso.datetime().optional()
@@ -43,6 +45,8 @@ export namespace RecipeSchema {
 			.describe("Type of the HTML element"),
 		asset_id: z.uuid()
 			.describe("DAM asset ID of the video"),
+		name: z.string().min(1).max(100)
+			.describe('The name of the video'),
 		href: z.url().min(20).max(2048)
 			.describe("URL of the video"),
 		expires: z.iso.datetime().optional()
@@ -67,6 +71,8 @@ export namespace RecipeSchema {
 			.describe("Type of the HTML element"),
 		asset_id: z.uuid()
 			.describe("DAM asset ID of the script"),
+		name: z.string().min(1).max(100)
+			.describe('The name of the script'),
 		href: z.url().min(20).max(2048)
 			.describe("URL of the script"),
 		expires: z.iso.datetime().optional()
@@ -87,6 +93,8 @@ export namespace RecipeSchema {
 			.describe("Type of the custom element"),
 		asset_id: z.uuid()
 			.describe("DAM asset ID of the custom element"),
+		name: z.string().min(1).max(100)
+			.describe('The name of the custom element'),
 		href: z.url().min(20).max(2048)
 			.describe("URL of the custom element"),
 		expires: z.iso.datetime().optional()
@@ -228,6 +236,8 @@ export namespace RecipeSchema {
 			.describe("Type of the transition"),
 		asset_id: z.uuid()
 			.describe("DAM asset ID of the transition"),
+		name: z.string().min(1).max(100)
+			.describe('The name of the transition'),
 		href: z.url().min(20).max(2048)
 			.describe("URL of the transition"),
 		expires: z.iso.datetime().optional()
