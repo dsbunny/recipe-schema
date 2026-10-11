@@ -948,6 +948,8 @@ export declare namespace RecipeSchema {
             enableLoopback: z.ZodOptional<z.ZodBoolean>;
         }, z.core.$strip>>;
         create_timestamp: z.ZodISODateTime;
+        modify_timestamp: z.ZodISODateTime;
+        expiry_timestamp: z.ZodOptional<z.ZodISODateTime>;
     }, z.core.$strip>;
     type Recipe = z.infer<typeof RecipeSchema>;
     const RecipeLinkSchema: z.ZodObject<{

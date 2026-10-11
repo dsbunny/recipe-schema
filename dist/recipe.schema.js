@@ -289,6 +289,10 @@ export var RecipeSchema;
             .describe("Cluster configuration"),
         create_timestamp: z.iso.datetime() // ISO 8601
             .describe('The timestamp of when the recipe was created'),
+        modify_timestamp: z.iso.datetime() // ISO 8601
+            .describe('The timestamp of when the recipe was last modified'),
+        expiry_timestamp: z.iso.datetime().optional() // ISO 8601
+            .describe('The timestamp of when the recipe will expire'),
     })
         .describe("Recipe");
     // Link to a recipe

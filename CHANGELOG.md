@@ -1,4 +1,7 @@
 # Changelog
+## v3.1.3
+- Add `modify_timestamp` and `expiry_timestamp` for visual sorting.
+
 ## v3.0.2
 - Add name fields for assets to aid inspection of published recipes and schedules.
 
