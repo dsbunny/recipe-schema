@@ -1,4 +1,11 @@
 # Changelog
+## v3.3.5
+- Add `id` _ZOD_ metadata for schemas.
+- Normalize _ZOD_ imports to `zod` per upstream recommendation.
+
+## v3.2.4
+- Add `RecipeBaseSchema` for the _base_ recipe schema as a subset of `RecipeSchema`.  Useful for services passing _recipes_.
+
 ## v3.1.3
 - Add `modify_timestamp` and `expiry_timestamp` for visual sorting.
 

@@ -1,7 +1,10 @@
 // vim: tabstop=8 softtabstop=0 noexpandtab shiftwidth=8 nosmarttab
 
-import * as z from "zod/v4";
+import * as z from 'zod';
+import { dsbunnyRegistry } from '@dsbunny/zod-registry';
 
-export const BaseParamsSchema = z.record(z.string(), z.any())
-        .describe('Runtime parameters for an asset');
+export const BaseParamsSchema = z.record(z.string(), z.any()).register(dsbunnyRegistry, {
+        id: 'BaseParamsSchema',
+        description: 'Schema for runtime parameters of an asset.',
+});
 export type BaseParams = z.infer<typeof BaseParamsSchema>;

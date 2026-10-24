@@ -1,6 +1,7 @@
 // vim: tabstop=8 softtabstop=0 noexpandtab shiftwidth=8 nosmarttab
 
-import * as z from "zod/v4";
+import * as z from 'zod';
+import { dsbunnyRegistry } from '@dsbunny/zod-registry';
 import { BaseParamsSchema } from './base-params.js';
 
 export namespace RecipeSchema {
@@ -10,8 +11,10 @@ export namespace RecipeSchema {
 			.describe("Hash method"),
 		hex: z.string()
 			.describe("Hexadecimal hash value"),
-	})
-		.describe("SHA-256 hash value");
+	}).register(dsbunnyRegistry, {
+		id: 'HashValueSchema',
+		description: 'SHA-256 hash value',
+	});
 
 	// Define types for HTML elements
 	export const HTMLImageElementSchema = z.object({
@@ -36,8 +39,10 @@ export namespace RecipeSchema {
 			.describe("Duration of the image in seconds"),
 		params: BaseParamsSchema.optional()
 			.describe("Optional parameters of the image element"),
-	})
-		.describe("HTML image element");
+	}).register(dsbunnyRegistry, {
+		id: 'HTMLImageElementSchema',
+		description: 'HTML image element',
+	});
 	export type HTMLImageElement = z.infer<typeof HTMLImageElementSchema>;
 
 	export const HTMLVideoElementSchema = z.object({
@@ -62,8 +67,10 @@ export namespace RecipeSchema {
 			.describe("Duration of the video in seconds"),
 		params: BaseParamsSchema.optional()
 			.describe("Optional parameters of the video element"),
-	})
-		.describe("HTML video element");
+	}).register(dsbunnyRegistry, {
+		id: 'HTMLVideoElementSchema',
+		description: 'HTML video element',
+	});
 	export type HTMLVideoElement = z.infer<typeof HTMLVideoElementSchema>;
 
 	export const HTMLScriptElementSchema = z.object({
@@ -84,8 +91,10 @@ export namespace RecipeSchema {
 			.describe("MD5 hash value"),
 		integrity: z.string()
 			.describe("Subresource Integrity (SRI) value"),
-	})
-		.describe("HTML script element");
+	}).register(dsbunnyRegistry, {
+		id: 'HTMLScriptElementSchema',
+		description: 'HTML script element',
+	});
 	export type HTMLScriptElement = z.infer<typeof HTMLScriptElementSchema>;
 
 	export const CustomElementSchema = z.object({
@@ -116,8 +125,10 @@ export namespace RecipeSchema {
 			HTMLScriptElementSchema,
 		])).optional()
 			.describe("Array of sources, which can be HTMLImageElement, HTMLVideoElement, or HTMLScriptElement"),
-	})
-		.describe("Custom element");
+	}).register(dsbunnyRegistry, {
+		id: 'CustomElementSchema',
+		description: 'Custom element',
+	});
 	export type CustomElement = z.infer<typeof CustomElementSchema>;
 
 	// Define types for other components
@@ -165,8 +176,10 @@ export namespace RecipeSchema {
 			.describe("Number of times the recurrence rule repeats"),
 		until: z.iso.datetime().optional()
 			.describe("ISO datetime until the recurrence rule repeats"),
-	})
-		.describe("Recurrence rule");
+	}).register(dsbunnyRegistry, {
+		id: 'RecurrenceRuleSchema',
+		description: 'Recurrence rule',
+	});
 	export type RecurrenceRule = z.infer<typeof RecurrenceRuleSchema>;
 
 	export const MatchPatternSchema = z.object({
@@ -174,8 +187,10 @@ export namespace RecipeSchema {
 			.describe("Type of the match pattern"),
 		code: z.string()
 			.describe("Code of the match pattern"),
-	})
-		.describe("Match pattern");
+	}).register(dsbunnyRegistry, {
+		id: 'MatchPatternSchema',
+		description: 'Match pattern',
+	});
 	export type MatchPattern = z.infer<typeof MatchPatternSchema>;
 
 	export const DOMEventSchema = z.object({
@@ -184,8 +199,10 @@ export namespace RecipeSchema {
 		type: z.string()
 			.describe("Type of the DOM event"),
 		match: MatchPatternSchema,
-	})
-		.describe("DOM event");
+	}).register(dsbunnyRegistry, {
+		id: 'DOMEventSchema',
+		description: 'DOM event',
+	});
 	export type DOMEvent = z.infer<typeof DOMEventSchema>;
 
 	export const PlaylistEntrySchema = z.union([HTMLImageElementSchema, HTMLVideoElementSchema, CustomElementSchema])
@@ -197,8 +214,10 @@ export namespace RecipeSchema {
 			.describe("Type of the playlist"),
 		entries: z.array(PlaylistEntrySchema)
 			.describe("Array of entries"),
-	})
-		.describe("Playlist");
+	}).register(dsbunnyRegistry, {
+		id: 'PlaylistSchema',
+		description: 'Playlist',
+	});
 	export type Playlist = z.infer<typeof PlaylistSchema>;
 
 	export const EventSchema = z.object({
@@ -227,8 +246,10 @@ export namespace RecipeSchema {
 			.describe("Enable on DOM event"),
 		disableOn: DOMEventSchema.optional()
 			.describe("Disable on DOM event"),
-	})
-		.describe("Event");
+	}).register(dsbunnyRegistry, {
+		id: 'EventSchema',
+		description: 'Event',
+	});
 	export type Event = z.infer<typeof EventSchema>;
 
 	export const TransitionSchema = z.object({
@@ -259,15 +280,19 @@ export namespace RecipeSchema {
 			HTMLScriptElementSchema,
 		])).optional()
 			.describe("Array of sources, which can be HTMLImageElement, HTMLVideoElement, or HTMLScriptElement"),
-	})
-		.describe("Transition");
+	}).register(dsbunnyRegistry, {
+		id: 'TransitionSchema',
+		description: 'Transition',
+	});
 	export type Transition = z.infer<typeof TransitionSchema>;
 
 	export const SignalingServerSchema = z.object({
 		url: z.url().min(20).max(2048)
 			.describe("URL of the signaling server"),
-	})
-		.describe("Signaling server");
+	}).register(dsbunnyRegistry, {
+		id: 'SignalingServerSchema',
+		description: 'Signaling server',
+	});
 	export type SignalingServer = z.infer<typeof SignalingServerSchema>;
 
 	// aka RTCIceServer in the DOM.
@@ -278,8 +303,10 @@ export namespace RecipeSchema {
 			.describe("Username of the ICE server"),
 		credential: z.string().optional()
 			.describe("Credential of the ICE server"),
-	})
-		.describe("ICE server");
+	}).register(dsbunnyRegistry, {
+		id: 'IceServerSchema',
+		description: 'ICE server',
+	});
 	export type IceServer = z.infer<typeof IceServerSchema>;
 
 	export const ClusterSchema = z.object({
@@ -295,12 +322,27 @@ export namespace RecipeSchema {
 			.describe("Array of signaling servers"),
 		enableLoopback: z.boolean().optional()
 			.describe("Enable loopback"),
-	})
-		.describe("Cluster");
+	}).register(dsbunnyRegistry, {
+		id: 'ClusterSchema',
+		description: 'Cluster',
+	});
 	export type Cluster = z.infer<typeof ClusterSchema>;
 
-	// Compose the final type
-	export const RecipeSchema = z.object({
+	export const RecipeBaseSchema = z.object({
+		transition: TransitionSchema,
+		schedule: z.array(EventSchema)
+			.describe("Array of events"),
+		$defs: z.record(z.string(), PlaylistSchema).optional()
+			.describe("Definitions of playlists"),
+		cluster: ClusterSchema.optional()
+			.describe("Cluster configuration"),
+	}).register(dsbunnyRegistry, {
+		id: 'RecipeBaseSchema',
+		description: 'Shared recipe content',
+	});
+	export type RecipeBase = z.infer<typeof RecipeBaseSchema>;
+
+	export const RecipeMetadataSchema = z.object({
 		id: z.uuid()
 			.describe("Recipe identifier"),
 		publish_id: z.uuid()
@@ -311,21 +353,23 @@ export namespace RecipeSchema {
 			.describe("Canvas identifier"),
 		viewport_id: z.string()
 			.describe("Viewport identifier"),
-		transition: TransitionSchema,
-		schedule: z.array(EventSchema)
-			.describe("Array of events"),
-		$defs: z.record(z.string(), PlaylistSchema).optional()
-			.describe("Definitions of playlists"),
-		cluster: ClusterSchema.optional()
-			.describe("Cluster configuration"),
 		create_timestamp: z.iso.datetime()  // ISO 8601
 			.describe('The timestamp of when the recipe was created'),
 		modify_timestamp: z.iso.datetime()  // ISO 8601
 			.describe('The timestamp of when the recipe was last modified'),
 		expiry_timestamp: z.iso.datetime().optional()  // ISO 8601
 			.describe('The timestamp of when the recipe will expire'),
-	})
-		.describe("Recipe");
+	}).register(dsbunnyRegistry, {
+		id: 'RecipeMetadataSchema',
+		description: 'Recipe metadata',
+	});
+	export type RecipeMetadata = z.infer<typeof RecipeMetadataSchema>;
+
+	// Compose the final output recipe
+	export const RecipeSchema = RecipeBaseSchema.extend(RecipeMetadataSchema.shape).register(dsbunnyRegistry, {
+		id: 'RecipeSchema',
+		description: 'Final composed recipe',
+	});
 	export type Recipe = z.infer<typeof RecipeSchema>;
 
 	// Link to a recipe
@@ -346,7 +390,9 @@ export namespace RecipeSchema {
 			.describe("MD5 hash value"),
 		integrity: z.string()
 			.describe("Subresource Integrity (SRI) value"),
-	})
-		.describe("Recipe link");
+	}).register(dsbunnyRegistry, {
+		id: 'RecipeLinkSchema',
+		description: 'Recipe link',
+	});
 	export type RecipeLink = z.infer<typeof RecipeLinkSchema>;
 }
