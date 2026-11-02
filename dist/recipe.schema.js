@@ -5,6 +5,8 @@ import { BaseParamsSchema } from './base-params.js';
 export var RecipeSchema;
 (function (RecipeSchema_1) {
     RecipeSchema_1.HashValueSchema = z.object({
+        "@type": z.literal("HashValue")
+            .describe("Type of the hash value"),
         method: z.literal("SHA256")
             .describe("Hash method"),
         hex: z.string()
@@ -193,6 +195,12 @@ export var RecipeSchema;
     RecipeSchema_1.PlaylistSchema = z.object({
         "@type": z.literal("Playlist")
             .describe("Type of the playlist"),
+        playlist_id: z.uuid()
+            .describe("ID of the playlist"),
+        name: z.string().min(1).max(100)
+            .describe('The name of the event'),
+        tags: z.array(z.string().max(64))
+            .describe('The tags of the event'),
         entries: z.array(RecipeSchema_1.PlaylistEntrySchema)
             .describe("Array of entries"),
     }).register(dsbunnyRegistry, {
@@ -202,12 +210,8 @@ export var RecipeSchema;
     RecipeSchema_1.EventSchema = z.object({
         "@type": z.literal("Event")
             .describe("Type of the event"),
-        id: z.uuid()
-            .describe("ID of the event, when IDs match all items excluding name and tags must be the same"),
-        name: z.string().min(1).max(100)
-            .describe('The name of the event'),
-        tags: z.array(z.string().max(64))
-            .describe('The tags of the event'),
+        event_id: z.uuid()
+            .describe("ID of the event"),
         priority: z.number().int().min(0).max(10)
             .describe("Priority of the event"),
         start: z.iso.datetime()
@@ -262,6 +266,8 @@ export var RecipeSchema;
         description: 'Transition',
     });
     RecipeSchema_1.SignalingServerSchema = z.object({
+        "@type": z.literal("SignalingServer")
+            .describe("Type of the signaling server"),
         url: z.url().min(20).max(2048)
             .describe("URL of the signaling server"),
     }).register(dsbunnyRegistry, {
@@ -270,6 +276,8 @@ export var RecipeSchema;
     });
     // aka RTCIceServer in the DOM.
     RecipeSchema_1.IceServerSchema = z.object({
+        "@type": z.literal("IceServer")
+            .describe("Type of the ICE server"),
         urls: z.union([z.string(), z.array(z.string())])
             .describe("URLs of the ICE server"),
         username: z.string().optional()
@@ -281,9 +289,11 @@ export var RecipeSchema;
         description: 'ICE server',
     });
     RecipeSchema_1.ClusterSchema = z.object({
+        "@type": z.literal("Cluster")
+            .describe("Type of the cluster"),
         label: z.string()
             .describe("Label of the cluster"),
-        id: z.uuid()
+        cluster_id: z.uuid()
             .describe("ID of the cluster"),
         peers: z.array(z.uuid())
             .describe("Array of peer IDs"),
@@ -298,6 +308,8 @@ export var RecipeSchema;
         description: 'Cluster',
     });
     RecipeSchema_1.RecipeBaseSchema = z.object({
+        "@type": z.literal("RecipeBase")
+            .describe("Type of the recipe base"),
         transition: RecipeSchema_1.TransitionSchema,
         schedule: z.array(RecipeSchema_1.EventSchema)
             .describe("Array of events"),
@@ -310,7 +322,9 @@ export var RecipeSchema;
         description: 'Shared recipe content',
     });
     RecipeSchema_1.RecipeMetadataSchema = z.object({
-        id: z.uuid()
+        "@type": z.literal("RecipeMetadata")
+            .describe("Type of the recipe metadata"),
+        recipe_id: z.uuid()
             .describe("Recipe identifier"),
         publish_id: z.uuid()
             .describe("Publish identifier"),
@@ -331,7 +345,10 @@ export var RecipeSchema;
         description: 'Recipe metadata',
     });
     // Compose the final output recipe
-    RecipeSchema_1.RecipeSchema = RecipeSchema_1.RecipeBaseSchema.extend(RecipeSchema_1.RecipeMetadataSchema.shape).register(dsbunnyRegistry, {
+    RecipeSchema_1.RecipeSchema = RecipeSchema_1.RecipeBaseSchema.extend(RecipeSchema_1.RecipeMetadataSchema.shape).extend({
+        "@type": z.literal("Recipe")
+            .describe("Type of the recipe"),
+    }).register(dsbunnyRegistry, {
         id: 'RecipeSchema',
         description: 'Final composed recipe',
     });
@@ -339,7 +356,7 @@ export var RecipeSchema;
     RecipeSchema_1.RecipeLinkSchema = z.object({
         "@type": z.literal("RecipeLink")
             .describe("Type of the recipe link"),
-        recipe_id: RecipeSchema_1.RecipeSchema.shape.id,
+        recipe_id: RecipeSchema_1.RecipeSchema.shape.recipe_id,
         ref_id: z.string().max(64).optional()
             .describe("Optional reference identifier"),
         href: z.url().min(20).max(2048)
