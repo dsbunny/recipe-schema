@@ -24,6 +24,8 @@ export namespace RecipeSchema {
 			.describe("Type of the HTML element"),
 		asset_id: z.uuid()
 			.describe("DAM asset ID of the image"),
+		version: z.number().min(1)
+			.describe('The version number of the asset'),
 		name: z.string().min(1).max(100)
 			.describe('The name of the image'),
 		href: z.url().min(20).max(2048)
@@ -52,6 +54,8 @@ export namespace RecipeSchema {
 			.describe("Type of the HTML element"),
 		asset_id: z.uuid()
 			.describe("DAM asset ID of the video"),
+		version: z.number().min(1)
+			.describe('The version number of the asset'),
 		name: z.string().min(1).max(100)
 			.describe('The name of the video'),
 		href: z.url().min(20).max(2048)
@@ -80,6 +84,8 @@ export namespace RecipeSchema {
 			.describe("Type of the HTML element"),
 		asset_id: z.uuid()
 			.describe("DAM asset ID of the script"),
+		version: z.number().min(1)
+			.describe('The version number of the asset'),
 		name: z.string().min(1).max(100)
 			.describe('The name of the script'),
 		href: z.url().min(20).max(2048)
@@ -104,6 +110,8 @@ export namespace RecipeSchema {
 			.describe("Type of the custom element"),
 		asset_id: z.uuid()
 			.describe("DAM asset ID of the custom element"),
+		version: z.number().min(1)
+			.describe('The version number of the asset'),
 		name: z.string().min(1).max(100)
 			.describe('The name of the custom element'),
 		href: z.url().min(20).max(2048)
@@ -217,9 +225,9 @@ export namespace RecipeSchema {
 		playlist_id: z.uuid()
 			.describe("ID of the playlist"),
 		name: z.string().min(1).max(100)
-			.describe('The name of the event'),
+			.describe('The name of the playlist'),
 		tags: z.array(z.string().max(64))
-			.describe('The tags of the event'),
+			.describe('The tags of the playlist'),
 		entries: z.array(PlaylistEntrySchema)
 			.describe("Array of entries"),
 	}).register(dsbunnyRegistry, {
@@ -261,6 +269,8 @@ export namespace RecipeSchema {
 			.describe("Type of the transition"),
 		asset_id: z.uuid()
 			.describe("DAM asset ID of the transition"),
+		version: z.number().min(1)
+			.describe('The version number of the asset'),
 		name: z.string().min(1).max(100)
 			.describe('The name of the transition'),
 		href: z.url().min(20).max(2048)

@@ -2,6 +2,7 @@
 ## v4.0.6
 - Rename `id` for schema objects to explicitly set the scope.
 - Add `name` and `tags` for _playlists_.
+- Add `version` to schema objects when referencing an `asset_id` to tie the presigned URL to the asset version.
 
 ## v3.3.5
 - Add `id` _ZOD_ metadata for schemas.
