@@ -6,6 +6,7 @@ import { BaseParamsSchema } from './base-params.js';
 
 export namespace RecipeSchema {
 
+	// #region Hash Value
 	export const HashValueSchema = z.object({
 		"@type": z.literal("HashValue")
 			.describe("Type of the hash value"),
@@ -17,7 +18,9 @@ export namespace RecipeSchema {
 		id: 'HashValueSchema',
 		description: 'SHA-256 hash value',
 	});
+	// #endregion
 
+	// #region HTML Image Element
 	// Define types for HTML elements
 	export const HTMLImageElementSchema = z.object({
 		"@type": z.literal("HTMLImageElement")
@@ -48,7 +51,9 @@ export namespace RecipeSchema {
 		description: 'HTML image element',
 	});
 	export type HTMLImageElement = z.infer<typeof HTMLImageElementSchema>;
+	// #endregion
 
+	// #region HTML Video Element
 	export const HTMLVideoElementSchema = z.object({
 		"@type": z.literal("HTMLVideoElement")
 			.describe("Type of the HTML element"),
@@ -78,7 +83,9 @@ export namespace RecipeSchema {
 		description: 'HTML video element',
 	});
 	export type HTMLVideoElement = z.infer<typeof HTMLVideoElementSchema>;
+	// #endregion
 
+	// #region HTML Script Element
 	export const HTMLScriptElementSchema = z.object({
 		"@type": z.literal("HTMLScriptElement")
 			.describe("Type of the HTML element"),
@@ -104,7 +111,9 @@ export namespace RecipeSchema {
 		description: 'HTML script element',
 	});
 	export type HTMLScriptElement = z.infer<typeof HTMLScriptElementSchema>;
+	// #endregion
 
+	// #region Custom Element
 	export const CustomElementSchema = z.object({
 		"@type": z.literal("CustomElement")
 			.describe("Type of the custom element"),
@@ -140,7 +149,9 @@ export namespace RecipeSchema {
 		description: 'Custom element',
 	});
 	export type CustomElement = z.infer<typeof CustomElementSchema>;
+	// #endregion
 
+	// #region Recurrence Rule
 	// Define types for other components
 	export const RecurrenceRuleSchema = z.object({
 		"@type": z.literal("RecurrenceRule")
@@ -191,6 +202,7 @@ export namespace RecipeSchema {
 		description: 'Recurrence rule',
 	});
 	export type RecurrenceRule = z.infer<typeof RecurrenceRuleSchema>;
+	// #endregion
 
 	export const MatchPatternSchema = z.object({
 		"@type": z.literal("MatchPattern")
@@ -215,6 +227,7 @@ export namespace RecipeSchema {
 	});
 	export type DOMEvent = z.infer<typeof DOMEventSchema>;
 
+	// #region Playlist
 	export const PlaylistEntrySchema = z.union([HTMLImageElementSchema, HTMLVideoElementSchema, CustomElementSchema])
 		.describe("Playlist entry, which can be HTMLImageElement, HTMLVideoElement, or CustomElement");
 	export type PlaylistEntry = z.infer<typeof PlaylistEntrySchema>;
@@ -236,19 +249,19 @@ export namespace RecipeSchema {
 	});
 	export type Playlist = z.infer<typeof PlaylistSchema>;
 
-	export const EventSchema = z.object({
-		"@type": z.literal("Event")
-			.describe("Type of the event"),
-		event_id: z.uuid()
-			.describe("ID of the event"),
+	export const ScheduledPlaylistSchema = z.object({
+		"@type": z.literal("ScheduledPlaylist")
+			.describe("Type of the scheduled playlist"),
+		scheduled_playlist_id: z.uuid()
+			.describe("ID of the scheduled playlist"),
 		priority: z.number().int().min(0).max(10)
-			.describe("Priority of the event"),
+			.describe("Priority of the scheduled playlist"),
 		start: z.iso.datetime()
-			.describe("ISO datetime of the start of the event"),
+			.describe("ISO datetime of the start of the scheduled playlist"),
 		timeZone: z.string()
-			.describe("Time zone of the event"),
+			.describe("Time zone of the scheduled playlist"),
 		duration: z.string()
-			.describe("Duration of the event"),
+			.describe("Duration of the scheduled playlist"),
 		playlist: PlaylistSchema,
 		recurrenceRules: z.array(RecurrenceRuleSchema).optional()
 			.describe("Array of recurrence rules"),
@@ -259,11 +272,13 @@ export namespace RecipeSchema {
 		disableOn: DOMEventSchema.optional()
 			.describe("Disable on DOM event"),
 	}).register(dsbunnyRegistry, {
-		id: 'EventSchema',
-		description: 'Event',
+		id: 'ScheduledPlaylistSchema',
+		description: 'Scheduled playlist',
 	});
-	export type Event = z.infer<typeof EventSchema>;
+	export type ScheduledPlaylist = z.infer<typeof ScheduledPlaylistSchema>;
+	// #endregion
 
+	// #region Transition
 	export const TransitionSchema = z.object({
 		"@type": z.literal("Transition")
 			.describe("Type of the transition"),
@@ -299,7 +314,9 @@ export namespace RecipeSchema {
 		description: 'Transition',
 	});
 	export type Transition = z.infer<typeof TransitionSchema>;
+	// #endregion
 
+	// #region Signaling Server
 	export const SignalingServerSchema = z.object({
 		"@type": z.literal("SignalingServer")
 			.describe("Type of the signaling server"),
@@ -310,7 +327,9 @@ export namespace RecipeSchema {
 		description: 'Signaling server',
 	});
 	export type SignalingServer = z.infer<typeof SignalingServerSchema>;
+	// #endregion
 
+	// #region ICE Server
 	// aka RTCIceServer in the DOM.
 	export const IceServerSchema = z.object({
 		"@type": z.literal("IceServer")
@@ -326,7 +345,9 @@ export namespace RecipeSchema {
 		description: 'ICE server',
 	});
 	export type IceServer = z.infer<typeof IceServerSchema>;
+	// #endregion
 
+	// #region Cluster
 	export const ClusterSchema = z.object({
 		"@type": z.literal("Cluster")
 			.describe("Type of the cluster"),
@@ -347,13 +368,15 @@ export namespace RecipeSchema {
 		description: 'Cluster',
 	});
 	export type Cluster = z.infer<typeof ClusterSchema>;
+	// #endregion
 
+	// #region Recipe Base
 	export const RecipeBaseSchema = z.object({
 		"@type": z.literal("RecipeBase")
 			.describe("Type of the recipe base"),
 		transition: TransitionSchema,
-		schedule: z.array(EventSchema)
-			.describe("Array of events"),
+		scheduled_playlists: z.array(ScheduledPlaylistSchema)
+			.describe("Array of scheduled playlists"),
 		$defs: z.record(z.string(), PlaylistSchema).optional()
 			.describe("Definitions of playlists"),
 		cluster: ClusterSchema.optional()
@@ -363,7 +386,9 @@ export namespace RecipeSchema {
 		description: 'Shared recipe content',
 	});
 	export type RecipeBase = z.infer<typeof RecipeBaseSchema>;
+	// #endregion
 
+	// #region Recipe Metadata
 	export const RecipeMetadataSchema = z.object({
 		"@type": z.literal("RecipeMetadata")
 			.describe("Type of the recipe metadata"),
@@ -388,6 +413,7 @@ export namespace RecipeSchema {
 		description: 'Recipe metadata',
 	});
 	export type RecipeMetadata = z.infer<typeof RecipeMetadataSchema>;
+	// #endregion
 
 	// Compose the final output recipe
 	export const RecipeSchema = RecipeBaseSchema.extend(RecipeMetadataSchema.shape).extend({
@@ -399,6 +425,7 @@ export namespace RecipeSchema {
 	});
 	export type Recipe = z.infer<typeof RecipeSchema>;
 
+	// #region Recipe Link
 	// Link to a recipe
 	export const RecipeLinkSchema = z.object({
 		"@type": z.literal("RecipeLink")
@@ -422,4 +449,5 @@ export namespace RecipeSchema {
 		description: 'Recipe link',
 	});
 	export type RecipeLink = z.infer<typeof RecipeLinkSchema>;
+	// #endregion
 }

@@ -395,9 +395,9 @@ export declare namespace RecipeSchema {
         }, z.core.$strip>]>>;
     }, z.core.$strip>;
     type Playlist = z.infer<typeof PlaylistSchema>;
-    const EventSchema: z.ZodObject<{
-        "@type": z.ZodLiteral<"Event">;
-        event_id: z.ZodUUID;
+    const ScheduledPlaylistSchema: z.ZodObject<{
+        "@type": z.ZodLiteral<"ScheduledPlaylist">;
+        scheduled_playlist_id: z.ZodUUID;
         priority: z.ZodNumber;
         start: z.ZodISODateTime;
         timeZone: z.ZodString;
@@ -578,7 +578,7 @@ export declare namespace RecipeSchema {
             }, z.core.$strip>;
         }, z.core.$strip>>;
     }, z.core.$strip>;
-    type Event = z.infer<typeof EventSchema>;
+    type ScheduledPlaylist = z.infer<typeof ScheduledPlaylistSchema>;
     const TransitionSchema: z.ZodObject<{
         "@type": z.ZodLiteral<"Transition">;
         asset_id: z.ZodUUID;
@@ -744,9 +744,9 @@ export declare namespace RecipeSchema {
                 integrity: z.ZodString;
             }, z.core.$strip>]>>>;
         }, z.core.$strip>;
-        schedule: z.ZodArray<z.ZodObject<{
-            "@type": z.ZodLiteral<"Event">;
-            event_id: z.ZodUUID;
+        scheduled_playlists: z.ZodArray<z.ZodObject<{
+            "@type": z.ZodLiteral<"ScheduledPlaylist">;
+            scheduled_playlist_id: z.ZodUUID;
             priority: z.ZodNumber;
             start: z.ZodISODateTime;
             timeZone: z.ZodString;
@@ -1131,9 +1131,9 @@ export declare namespace RecipeSchema {
                 integrity: z.ZodString;
             }, z.core.$strip>]>>>;
         }, z.core.$strip>;
-        schedule: z.ZodArray<z.ZodObject<{
-            "@type": z.ZodLiteral<"Event">;
-            event_id: z.ZodUUID;
+        scheduled_playlists: z.ZodArray<z.ZodObject<{
+            "@type": z.ZodLiteral<"ScheduledPlaylist">;
+            scheduled_playlist_id: z.ZodUUID;
             priority: z.ZodNumber;
             start: z.ZodISODateTime;
             timeZone: z.ZodString;

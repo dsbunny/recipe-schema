@@ -1,4 +1,7 @@
 # Changelog
+## v5.0.7
+- Rename `Event` to `ScheduledPlaylist`, together with `event_id` to `scheduled_playlist_id`, and field of `z.array(EventSchema)` from `schedule` to `scheduled_playlists` to be more explicit and obvious in meaning.
+
 ## v4.0.6
 - Rename `id` for schema objects to explicitly set the scope.
 - Add `name` and `tags` for _playlists_.

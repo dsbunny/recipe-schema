@@ -12,3 +12,6 @@ With NodeJS build system of choice.
 ```
 turbo build
 ```
+
+## Testing
+After building workspace dependencies, run `pnpm test` in this package.

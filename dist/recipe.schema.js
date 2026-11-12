@@ -4,6 +4,7 @@ import { dsbunnyRegistry } from '@dsbunny/zod-registry';
 import { BaseParamsSchema } from './base-params.js';
 export var RecipeSchema;
 (function (RecipeSchema_1) {
+    // #region Hash Value
     RecipeSchema_1.HashValueSchema = z.object({
         "@type": z.literal("HashValue")
             .describe("Type of the hash value"),
@@ -15,6 +16,8 @@ export var RecipeSchema;
         id: 'HashValueSchema',
         description: 'SHA-256 hash value',
     });
+    // #endregion
+    // #region HTML Image Element
     // Define types for HTML elements
     RecipeSchema_1.HTMLImageElementSchema = z.object({
         "@type": z.literal("HTMLImageElement")
@@ -44,6 +47,8 @@ export var RecipeSchema;
         id: 'HTMLImageElementSchema',
         description: 'HTML image element',
     });
+    // #endregion
+    // #region HTML Video Element
     RecipeSchema_1.HTMLVideoElementSchema = z.object({
         "@type": z.literal("HTMLVideoElement")
             .describe("Type of the HTML element"),
@@ -72,6 +77,8 @@ export var RecipeSchema;
         id: 'HTMLVideoElementSchema',
         description: 'HTML video element',
     });
+    // #endregion
+    // #region HTML Script Element
     RecipeSchema_1.HTMLScriptElementSchema = z.object({
         "@type": z.literal("HTMLScriptElement")
             .describe("Type of the HTML element"),
@@ -96,6 +103,8 @@ export var RecipeSchema;
         id: 'HTMLScriptElementSchema',
         description: 'HTML script element',
     });
+    // #endregion
+    // #region Custom Element
     RecipeSchema_1.CustomElementSchema = z.object({
         "@type": z.literal("CustomElement")
             .describe("Type of the custom element"),
@@ -130,6 +139,8 @@ export var RecipeSchema;
         id: 'CustomElementSchema',
         description: 'Custom element',
     });
+    // #endregion
+    // #region Recurrence Rule
     // Define types for other components
     RecipeSchema_1.RecurrenceRuleSchema = z.object({
         "@type": z.literal("RecurrenceRule")
@@ -179,6 +190,7 @@ export var RecipeSchema;
         id: 'RecurrenceRuleSchema',
         description: 'Recurrence rule',
     });
+    // #endregion
     RecipeSchema_1.MatchPatternSchema = z.object({
         "@type": z.literal("MatchPattern")
             .describe("Type of the match pattern"),
@@ -198,6 +210,7 @@ export var RecipeSchema;
         id: 'DOMEventSchema',
         description: 'DOM event',
     });
+    // #region Playlist
     RecipeSchema_1.PlaylistEntrySchema = z.union([RecipeSchema_1.HTMLImageElementSchema, RecipeSchema_1.HTMLVideoElementSchema, RecipeSchema_1.CustomElementSchema])
         .describe("Playlist entry, which can be HTMLImageElement, HTMLVideoElement, or CustomElement");
     RecipeSchema_1.PlaylistSchema = z.object({
@@ -215,19 +228,19 @@ export var RecipeSchema;
         id: 'PlaylistSchema',
         description: 'Playlist',
     });
-    RecipeSchema_1.EventSchema = z.object({
-        "@type": z.literal("Event")
-            .describe("Type of the event"),
-        event_id: z.uuid()
-            .describe("ID of the event"),
+    RecipeSchema_1.ScheduledPlaylistSchema = z.object({
+        "@type": z.literal("ScheduledPlaylist")
+            .describe("Type of the scheduled playlist"),
+        scheduled_playlist_id: z.uuid()
+            .describe("ID of the scheduled playlist"),
         priority: z.number().int().min(0).max(10)
-            .describe("Priority of the event"),
+            .describe("Priority of the scheduled playlist"),
         start: z.iso.datetime()
-            .describe("ISO datetime of the start of the event"),
+            .describe("ISO datetime of the start of the scheduled playlist"),
         timeZone: z.string()
-            .describe("Time zone of the event"),
+            .describe("Time zone of the scheduled playlist"),
         duration: z.string()
-            .describe("Duration of the event"),
+            .describe("Duration of the scheduled playlist"),
         playlist: RecipeSchema_1.PlaylistSchema,
         recurrenceRules: z.array(RecipeSchema_1.RecurrenceRuleSchema).optional()
             .describe("Array of recurrence rules"),
@@ -238,9 +251,11 @@ export var RecipeSchema;
         disableOn: RecipeSchema_1.DOMEventSchema.optional()
             .describe("Disable on DOM event"),
     }).register(dsbunnyRegistry, {
-        id: 'EventSchema',
-        description: 'Event',
+        id: 'ScheduledPlaylistSchema',
+        description: 'Scheduled playlist',
     });
+    // #endregion
+    // #region Transition
     RecipeSchema_1.TransitionSchema = z.object({
         "@type": z.literal("Transition")
             .describe("Type of the transition"),
@@ -275,6 +290,8 @@ export var RecipeSchema;
         id: 'TransitionSchema',
         description: 'Transition',
     });
+    // #endregion
+    // #region Signaling Server
     RecipeSchema_1.SignalingServerSchema = z.object({
         "@type": z.literal("SignalingServer")
             .describe("Type of the signaling server"),
@@ -284,6 +301,8 @@ export var RecipeSchema;
         id: 'SignalingServerSchema',
         description: 'Signaling server',
     });
+    // #endregion
+    // #region ICE Server
     // aka RTCIceServer in the DOM.
     RecipeSchema_1.IceServerSchema = z.object({
         "@type": z.literal("IceServer")
@@ -298,6 +317,8 @@ export var RecipeSchema;
         id: 'IceServerSchema',
         description: 'ICE server',
     });
+    // #endregion
+    // #region Cluster
     RecipeSchema_1.ClusterSchema = z.object({
         "@type": z.literal("Cluster")
             .describe("Type of the cluster"),
@@ -317,12 +338,14 @@ export var RecipeSchema;
         id: 'ClusterSchema',
         description: 'Cluster',
     });
+    // #endregion
+    // #region Recipe Base
     RecipeSchema_1.RecipeBaseSchema = z.object({
         "@type": z.literal("RecipeBase")
             .describe("Type of the recipe base"),
         transition: RecipeSchema_1.TransitionSchema,
-        schedule: z.array(RecipeSchema_1.EventSchema)
-            .describe("Array of events"),
+        scheduled_playlists: z.array(RecipeSchema_1.ScheduledPlaylistSchema)
+            .describe("Array of scheduled playlists"),
         $defs: z.record(z.string(), RecipeSchema_1.PlaylistSchema).optional()
             .describe("Definitions of playlists"),
         cluster: RecipeSchema_1.ClusterSchema.optional()
@@ -331,6 +354,8 @@ export var RecipeSchema;
         id: 'RecipeBaseSchema',
         description: 'Shared recipe content',
     });
+    // #endregion
+    // #region Recipe Metadata
     RecipeSchema_1.RecipeMetadataSchema = z.object({
         "@type": z.literal("RecipeMetadata")
             .describe("Type of the recipe metadata"),
@@ -354,6 +379,7 @@ export var RecipeSchema;
         id: 'RecipeMetadataSchema',
         description: 'Recipe metadata',
     });
+    // #endregion
     // Compose the final output recipe
     RecipeSchema_1.RecipeSchema = RecipeSchema_1.RecipeBaseSchema.extend(RecipeSchema_1.RecipeMetadataSchema.shape).extend({
         "@type": z.literal("Recipe")
@@ -362,6 +388,7 @@ export var RecipeSchema;
         id: 'RecipeSchema',
         description: 'Final composed recipe',
     });
+    // #region Recipe Link
     // Link to a recipe
     RecipeSchema_1.RecipeLinkSchema = z.object({
         "@type": z.literal("RecipeLink")
@@ -384,5 +411,6 @@ export var RecipeSchema;
         id: 'RecipeLinkSchema',
         description: 'Recipe link',
     });
+    // #endregion
 })(RecipeSchema || (RecipeSchema = {}));
 //# sourceMappingURL=recipe.schema.js.map
