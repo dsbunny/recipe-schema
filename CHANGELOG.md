@@ -1,6 +1,6 @@
 # Changelog
 ## v5.1.8
-- Add `excludedRecurrenceRules` per section 4.3.4 of RFC8984.
+- Add `recurrenceOverrides` per section 3.3.4 of _draft-ietf-calext-jscalendarbis-22_ as `excludedRecurrenceRules ` is considered obsolete.
 
 ## v5.0.7
 - Rename `Event` to `ScheduledPlaylist`, together with `event_id` to `scheduled_playlist_id`, and field of `z.array(EventSchema)` from `schedule` to `scheduled_playlists` to be more explicit and obvious in meaning.

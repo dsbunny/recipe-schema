@@ -265,8 +265,12 @@ export namespace RecipeSchema {
 		playlist: PlaylistSchema,
 		recurrenceRules: z.array(RecurrenceRuleSchema).optional()
 			.describe("Array of recurrence rules"),
-		excludedRecurrenceRules: z.array(RecurrenceRuleSchema).optional()
-			.describe("Array of excluded recurrence rules"),
+		recurrenceOverrides: z.record(
+			z.iso.datetime({ local: true, precision: 0 })
+				.refine((value) => !value.endsWith("Z")),
+			z.record(z.string(), z.json()),
+		).optional()
+			.describe("Maps recurrence IDs to overridden properties"),
 		onceOn: DOMEventSchema.optional()
 			.describe("Once on DOM event"),
 		enableOn: DOMEventSchema.optional()
