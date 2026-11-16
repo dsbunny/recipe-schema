@@ -244,6 +244,8 @@ export var RecipeSchema;
         playlist: RecipeSchema_1.PlaylistSchema,
         recurrenceRules: z.array(RecipeSchema_1.RecurrenceRuleSchema).optional()
             .describe("Array of recurrence rules"),
+        excludedRecurrenceRules: z.array(RecipeSchema_1.RecurrenceRuleSchema).optional()
+            .describe("Array of excluded recurrence rules"),
         onceOn: RecipeSchema_1.DOMEventSchema.optional()
             .describe("Once on DOM event"),
         enableOn: RecipeSchema_1.DOMEventSchema.optional()

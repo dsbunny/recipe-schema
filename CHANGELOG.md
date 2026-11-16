@@ -1,4 +1,7 @@
 # Changelog
+## v5.1.8
+- Add `excludedRecurrenceRules` per section 4.3.4 of RFC8984.
+
 ## v5.0.7
 - Rename `Event` to `ScheduledPlaylist`, together with `event_id` to `scheduled_playlist_id`, and field of `z.array(EventSchema)` from `schedule` to `scheduled_playlists` to be more explicit and obvious in meaning.
 

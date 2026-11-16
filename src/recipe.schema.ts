@@ -265,6 +265,8 @@ export namespace RecipeSchema {
 		playlist: PlaylistSchema,
 		recurrenceRules: z.array(RecurrenceRuleSchema).optional()
 			.describe("Array of recurrence rules"),
+		excludedRecurrenceRules: z.array(RecurrenceRuleSchema).optional()
+			.describe("Array of excluded recurrence rules"),
 		onceOn: DOMEventSchema.optional()
 			.describe("Once on DOM event"),
 		enableOn: DOMEventSchema.optional()
